@@ -1,0 +1,295 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Photo Gallery App should render correctly 1`] = `
+ShallowWrapper {
+  "length": 1,
+  Symbol(enzyme.__root__): [Circular],
+  Symbol(enzyme.__unrendered__): <App />,
+  Symbol(enzyme.__renderer__): Object {
+    "batchedUpdates": [Function],
+    "getNode": [Function],
+    "render": [Function],
+    "simulateEvent": [Function],
+    "unmount": [Function],
+  },
+  Symbol(enzyme.__node__): Object {
+    "instance": null,
+    "key": undefined,
+    "nodeType": "host",
+    "props": Object {
+      "children": Array [
+        <div
+          className="gallery"
+        >
+          <TopNav />
+          <Gallery
+            columns={4}
+            margin={3}
+            onClick={[Function]}
+            photos={Array []}
+          />
+          <div
+            className="photo-counter"
+            onClick={[Function]}
+            role="presentation"
+          >
+            0
+             PHOTOS +
+          </div>
+        </div>,
+        <SlideShowView
+          className="slideshow"
+          clickNext={[Function]}
+          clickPrev={[Function]}
+          closeLightbox={[Function]}
+          current={0}
+          gridButtonClick={[Function]}
+          isLightboxOpen={false}
+          photos={Array []}
+          placeName=""
+        />,
+      ],
+      "id": "main-app",
+    },
+    "ref": null,
+    "rendered": Array [
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": Array [
+            <TopNav />,
+            <Gallery
+              columns={4}
+              margin={3}
+              onClick={[Function]}
+              photos={Array []}
+            />,
+            <div
+              className="photo-counter"
+              onClick={[Function]}
+              role="presentation"
+            >
+              0
+               PHOTOS +
+            </div>,
+          ],
+          "className": "gallery",
+        },
+        "ref": null,
+        "rendered": Array [
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "function",
+            "props": Object {},
+            "ref": null,
+            "rendered": null,
+            "type": [Function],
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "class",
+            "props": Object {
+              "columns": 4,
+              "margin": 3,
+              "onClick": [Function],
+              "photos": Array [],
+            },
+            "ref": null,
+            "rendered": null,
+            "type": [Function],
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": Array [
+                0,
+                " PHOTOS +",
+              ],
+              "className": "photo-counter",
+              "onClick": [Function],
+              "role": "presentation",
+            },
+            "ref": null,
+            "rendered": Array [
+              0,
+              " PHOTOS +",
+            ],
+            "type": "div",
+          },
+        ],
+        "type": "div",
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "function",
+        "props": Object {
+          "className": "slideshow",
+          "clickNext": [Function],
+          "clickPrev": [Function],
+          "closeLightbox": [Function],
+          "current": 0,
+          "gridButtonClick": [Function],
+          "isLightboxOpen": false,
+          "photos": Array [],
+          "placeName": "",
+        },
+        "ref": null,
+        "rendered": null,
+        "type": [Function],
+      },
+    ],
+    "type": "div",
+  },
+  Symbol(enzyme.__nodes__): Array [
+    Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "host",
+      "props": Object {
+        "children": Array [
+          <div
+            className="gallery"
+          >
+            <TopNav />
+            <Gallery
+              columns={4}
+              margin={3}
+              onClick={[Function]}
+              photos={Array []}
+            />
+            <div
+              className="photo-counter"
+              onClick={[Function]}
+              role="presentation"
+            >
+              0
+               PHOTOS +
+            </div>
+          </div>,
+          <SlideShowView
+            className="slideshow"
+            clickNext={[Function]}
+            clickPrev={[Function]}
+            closeLightbox={[Function]}
+            current={0}
+            gridButtonClick={[Function]}
+            isLightboxOpen={false}
+            photos={Array []}
+            placeName=""
+          />,
+        ],
+        "id": "main-app",
+      },
+      "ref": null,
+      "rendered": Array [
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": Array [
+              <TopNav />,
+              <Gallery
+                columns={4}
+                margin={3}
+                onClick={[Function]}
+                photos={Array []}
+              />,
+              <div
+                className="photo-counter"
+                onClick={[Function]}
+                role="presentation"
+              >
+                0
+                 PHOTOS +
+              </div>,
+            ],
+            "className": "gallery",
+          },
+          "ref": null,
+          "rendered": Array [
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "function",
+              "props": Object {},
+              "ref": null,
+              "rendered": null,
+              "type": [Function],
+            },
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "class",
+              "props": Object {
+                "columns": 4,
+                "margin": 3,
+                "onClick": [Function],
+                "photos": Array [],
+              },
+              "ref": null,
+              "rendered": null,
+              "type": [Function],
+            },
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": Array [
+                  0,
+                  " PHOTOS +",
+                ],
+                "className": "photo-counter",
+                "onClick": [Function],
+                "role": "presentation",
+              },
+              "ref": null,
+              "rendered": Array [
+                0,
+                " PHOTOS +",
+              ],
+              "type": "div",
+            },
+          ],
+          "type": "div",
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "function",
+          "props": Object {
+            "className": "slideshow",
+            "clickNext": [Function],
+            "clickPrev": [Function],
+            "closeLightbox": [Function],
+            "current": 0,
+            "gridButtonClick": [Function],
+            "isLightboxOpen": false,
+            "photos": Array [],
+            "placeName": "",
+          },
+          "ref": null,
+          "rendered": null,
+          "type": [Function],
+        },
+      ],
+      "type": "div",
+    },
+  ],
+  Symbol(enzyme.__options__): Object {
+    "adapter": ReactSixteenAdapter {
+      "options": Object {
+        "enableComponentDidUpdateOnSetState": true,
+      },
+    },
+  },
+}
+`;
