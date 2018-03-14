@@ -1,11 +1,25 @@
-const data = require('./allData.js');
-const mongoose = require('mongoose');
-const Photos = require('../database/index.js');
-require('dotenv').load();
 // if (process.env.NODE_ENV !== 'production') {
 //   require('dotenv').load();
 // }
+
+const data = require('./allData.js');
+const mongoose = require('mongoose');
+const Photos = require('../database/index.js');
+var faker = require('faker');
+require('dotenv').load();
 const API_KEY = process.env.API_KEY;
+
+const MAXSEED = 200;
+const MAXPHOTOS = 10;
+const MAXREVIEWS = 10;
+const PHOTOS_URL = 'https://picsum.photos/';
+const entries = [];
+const startTime = Date.now(); //starting time of Seeding
+
+//generate a random number between two values inclusive
+function randomInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min; //The maximum is inclusive and the minimum is inclusive 
+}
 
 mongoose.connect('mongodb://localhost/photos', (err) => {
   if (err) {
@@ -15,64 +29,68 @@ mongoose.connect('mongodb://localhost/photos', (err) => {
   }
 });
 
-function seedDb() {
-  let count = 0;
-  Photos.isSeeded().then((result) => {
-    if (result === 0) {
-      data.forEach((place) => { // for each ID
-        const entry = {
-          place_id: place.result.place_id,
-          place_name: place.result.name,
-          photos: [],
-          reviews: [],
-        };
-        // push photo details to entry
-        const photos = place.result.photos;
-        const PHOTOS_URL = 'https://maps.googleapis.com/maps/api/place/photo?maxwidth=900&photoreference=';
 
-        for (let i = 0; i < photos.length; i += 1) {
-          const photoRef = photos[i].photo_reference;
-          const photoUrl = `${PHOTOS_URL}${photoRef}&key=${API_KEY}`;
-          const details = {
-            ref: photoRef,
-            url: photoUrl,
-            width: photos[i].width,
-            height: photos[i].height,
-          };
-          entry.photos.push(details);
+Photos.findOne(1,  (err,data)=>{
+  //if at least one entry exits, drop database then seed data
+  
+  if(data[0] !== undefined){
+    mongoose.connection.collections['photos'].drop( function(err) {
+      console.log('DB has data, dropping collection...\nSeeding fresh DB...');
+      seed();
+    });
+  } else {
+    seed(); //immediately seed
+  }
+})
+
+function seed(){
+
+  function seedDatabase(){
+    for (var seedNumber = 0; seedNumber < MAXSEED; seedNumber++){
+      const entry = {
+        place_id: seedNumber,
+        place_name: faker.company.companyName(),
+        photos: [],
+        reviews: [],
+      };
+      
+      for (var i = 0; i < MAXPHOTOS; i++){
+
+        //generate random height, width, image
+        const height = randomInt(400,600); 
+        const width = randomInt(500,800);
+        const imageId = randomInt(0,1000);
+
+        const details = {
+          url: `${PHOTOS_URL}${width}/${height}?image=${imageId}` ,
+          width: width,
+          height: height,
         }
-
-        // push each review to entry
-        const reviews = place.result.reviews;
-
-        for (let j = 0; j < reviews.length; j += 1) {
-          const review = {
-            name: reviews[j].author_name,
-            avatar: reviews[j].profile_photo_url,
-          };
-          entry.reviews.push(review);
+        entry.photos.push(details);
+      }
+      
+      for (var i = 0; i < MAXPHOTOS; i++){
+        const review = {
+          name: faker.name.firstName() + " " + faker.name.lastName(),
+          avatar: faker.internet.avatar(),
         }
+        entry.reviews.push(review);
+      }
+      entries.push(entry);
+    }
+  }
 
-        Photos.insertOne(entry, (err) => {
-          if (err) {
-            console.log(err);
-          } else {
-            count += 1;
-            if (count === 195) {
-              console.log('database successfully seeded');
-              mongoose.disconnect();
-            }
-          }
-        });
-      });
+  seedDatabase();
+
+  Photos.insertAll(entries, (err)=>{
+    if (err){
+      console.log('Error seeding MongoDB:', err);
     } else {
-      console.log('database is already seeded');
+      const endTime = Date.now(); //End time of Seeding
+      console.log('Success! MongoDB seeded with', MAXSEED, 'entries');
+      console.log(`MongoDB seed Time was ${(endTime - startTime)/1000}s`);
       mongoose.disconnect();
     }
   });
+
 }
-
-seedDb(data);
-
-
-module.exports = seedDb;
