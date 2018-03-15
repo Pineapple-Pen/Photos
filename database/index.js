@@ -18,8 +18,10 @@ const photoSchema = mongoose.Schema({
     unique: true,
   },
   place_name: String,
-  photos: [PhotosSchema],
-  reviews: [ReviewSchema],
+  photos: Array,
+  reviews: Array,
+ // photos: [PhotosSchema],
+ // reviews: [ReviewSchema],
 });
 
 const Photos = mongoose.model('Photos', photoSchema);
@@ -57,3 +59,4 @@ exports.findAll = findAll;
 exports.insertOne = insertOne;
 exports.insertAll = insertAll;
 exports.isSeeded = isSeeded;
+exports.Model = Photos;
