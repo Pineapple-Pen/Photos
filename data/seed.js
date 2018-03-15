@@ -1,8 +1,8 @@
 const data = require('./allData.js');
-//const mongoose = require('mongoose');
 const MongoClient = require('mongodb').MongoClient;
 const Photos = require('../database/index.js');
 const faker = require('faker');
+
 require('dotenv').load();
 
 const MAX_SEED = 10000;
@@ -18,8 +18,6 @@ let seedCounter = 0;
 const randomInt = function randomInt(min, max){
   return Math.floor(Math.random() * (max - min + 1)) + min; //The maximum is inclusive and the minimum is inclusive 
 }
-
-
 
 // Use connect method to connect to the server
 MongoClient.connect(URL, function(err, client) {
@@ -46,18 +44,6 @@ MongoClient.connect(URL, function(err, client) {
   })
   //startSeedingDB(collection);
 });
-
-// Photos.findOne(1, (err, data) => {
-
-//   if (data[0] !== undefined) {
-//     mongoose.connection.collections['photos'].drop(function(err) {
-//       console.log(`DB has data, dropping collection...\nSeeding fresh DB in batches of ${BATCH_SIZE}...`);
-//      // setTimeout(startSeedingDB, 2000);
-//     });
-//   } else {
-//     setTimeout(startSeedingDB, 2000);
-//   }
-// })
 
 const startTime = Date.now(); //starting time of Seeding
 
@@ -121,9 +107,8 @@ const startSeedingDB = async function startSeedingDB(collection, connection){
   console.log(`MongoDB seed Time was ${(endTime - startTime)/1000}s`);
 
   connection.close();
+  process.exit();
 }
-
-
 
 
 
