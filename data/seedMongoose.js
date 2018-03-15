@@ -1,6 +1,5 @@
 const data = require('./allData.js');
-//const mongoose = require('mongoose');
-const MongoClient = require('mongodb').MongoClient;
+const mongoose = require('mongoose');
 const Photos = require('../database/index.js');
 const faker = require('faker');
 require('dotenv').load();
@@ -8,9 +7,7 @@ require('dotenv').load();
 const MAX_SEED = 10000;
 const BATCH_SIZE = 1000;
 const MAX_PHOTOS = 8;
-const PHOTOS_URL = 'https://picsum.photos/'; // Fake photos
-const URL = 'mongodb://localhost'; // Connection URL
-const DB_NAME = 'photos'; // Database Name
+const PHOTOS_URL = 'https://picsum.photos/';
 
 let seedCounter = 0;
 
@@ -19,49 +16,30 @@ const randomInt = function randomInt(min, max){
   return Math.floor(Math.random() * (max - min + 1)) + min; //The maximum is inclusive and the minimum is inclusive 
 }
 
-
-
-// Use connect method to connect to the server
-MongoClient.connect(URL, function(err, client) {
-  console.log("Connected successfully to MongoDB");
-
-  const db = client.db(DB_NAME);
-
-  const collection = db.collection('photos');
-
-  collection.find({'place_id': 1}).toArray((err, docs)=> {
-    if (docs[0] !== undefined){
-      collection.drop((err, delOK)=> {
-        if (err) throw err;
-        if (delOK) {
-          console.log(`DB has data, dropping collection...\nSeeding fresh DB in batches of ${BATCH_SIZE}...`);
-          setTimeout(()=>startSeedingDB(collection, client), 2000);
-        }
-        
-      });
-    } else {
-      setTimeout(()=>startSeedingDB(collection, client), 2000);
-    }
-
-  })
-  //startSeedingDB(collection);
+mongoose.connect('mongodb://localhost/photos', (err) => {
+  if (err) {
+    throw err;
+  } else {
+    console.log('mongoose connected');
+  }
 });
 
-// Photos.findOne(1, (err, data) => {
+//if at least one entry exits, drop database then seed data
+Photos.findOne(1, (err, data) => {
 
-//   if (data[0] !== undefined) {
-//     mongoose.connection.collections['photos'].drop(function(err) {
-//       console.log(`DB has data, dropping collection...\nSeeding fresh DB in batches of ${BATCH_SIZE}...`);
-//      // setTimeout(startSeedingDB, 2000);
-//     });
-//   } else {
-//     setTimeout(startSeedingDB, 2000);
-//   }
-// })
+  if (data[0] !== undefined) {
+    mongoose.connection.collections['photos'].drop(function(err) {
+      console.log(`DB has data, dropping collection...\nSeeding fresh DB in batches of ${BATCH_SIZE}...`);
+     // setTimeout(startSeedingDB, 2000);
+    });
+  } else {
+    setTimeout(startSeedingDB, 2000);
+  }
+})
 
 const startTime = Date.now(); //starting time of Seeding
 
-const seed = async function seed(collection){
+const seed = async function seed(){
 
   let entries = [];
 
@@ -105,28 +83,23 @@ const seed = async function seed(collection){
 
   generateData();
 
-  await collection.insertMany(entries);
+  await Photos.Model.insertMany(entries);
   if (seedCounter % BATCH_SIZE === 0) console.log(`Seeded ${seedCounter} rows in ${Math.round((Date.now() - startTime)/1000)}s`);
 
 }
 
-const startSeedingDB = async function startSeedingDB(collection, connection){
+const startSeedingDB = async function startSeedingDB(){
 
   for (var i = 0; i < MAX_SEED; i++) {
-    await seed(collection);
+    await seed();
   }
 
   let endTime = Date.now(); //End time of Seeding
   console.log('Success! MongoDB seeded with', MAX_SEED * BATCH_SIZE, 'entries');
   console.log(`MongoDB seed Time was ${(endTime - startTime)/1000}s`);
 
-  connection.close();
+  mongoose.disconnect();
+  process.exit(0);
 }
-
-
-
-
-
-
 
 
