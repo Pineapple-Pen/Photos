@@ -16,6 +16,7 @@ const photoSchema = mongoose.Schema({
   place_id: {
     type: Number,
     unique: true,
+    index: true
   },
   place_name: String,
   photos: Array,
@@ -40,7 +41,7 @@ function findAll(callback) {
 function findOne(id, callback) {
   Photos.find({
     place_id: id,
-  }, callback);
+  }, callback).limit(1);
 }
 
 // insertOne will insert on entry into database
