@@ -2,8 +2,8 @@ SELECT pid, pg_terminate_backend(pid)
 FROM pg_stat_activity 
 WHERE datname = current_database() AND pid <> pg_backend_pid();
 
-/*DROP DATABASE photos;
-CREATE DATABASE photos;*/
+DROP DATABASE IF EXISTS photos;
+CREATE DATABASE photos;
 
 \c photos;
 
