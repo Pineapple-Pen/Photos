@@ -7,7 +7,10 @@ CREATE DATABASE photos;*/
 
 \c photos;
 
-DROP TABLE IF EXISTS Places, reviewers, photos ;
+DROP TABLE IF EXISTS photos;
+DROP TABLE IF EXISTS places;
+DROP TABLE IF EXISTS reviewers;
+
 
 CREATE TABLE places (
   /* Describe your table here.*/
@@ -40,5 +43,6 @@ CREATE TABLE photos (
 /*  Execute this file from the command line by typing:
  *    mysql -u root < server/schema.sql
       mysql -u student < schema.sql
+      psql -U zaid -a -f schema.sql
  *  to create the database and the tables.*/
 
