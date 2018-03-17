@@ -28,7 +28,8 @@ const NUM_BATCHES_PLACES = 100;
 const NUM_BATCHES_REVIEWERS = 100;
 const NUM_BATCHES_PHOTOS = 1000;
 
-const BATCH_SIZE = 10000;
+const BATCH_SIZE_PLACES = 10000;
+const BATCH_SIZE_REVIEWERS = 10000;
 const BATCH_SIZE_PHOTOS = 1000;
 
 const startTime = Date.now();
@@ -37,21 +38,24 @@ const insertPlaces = async function insertPlaces() {
 
   try {
     for (var i = 1; i <= NUM_BATCHES_PLACES; i++){
-      const values = generatePlaceData(BATCH_SIZE);
+      const values = generatePlaceData(BATCH_SIZE_PLACES);
       const cs = new postgres.helpers.ColumnSet(['place_name'], {table: 'places'});
       const query = postgres.helpers.insert(values, cs);
       
       await db.none(query);
-      if (i*BATCH_SIZE % 100000 === 0) console.log(`Seeded ${i*BATCH_SIZE} places in ${Math.round((Date.now() - startTime)/1000)}s`);
+      if (i*BATCH_SIZE_PLACES % 100000 === 0) console.log(`Seeded ${i*BATCH_SIZE_PLACES} places in ${Math.round((Date.now() - startTime)/1000)}s`);
     }
   }
   catch (error) {
       console.log('Error seeding data', error);
   }
   finally{
-    const endTime = Date.now()
-    console.log(`Places Seeding completed in ${Math.round((endTime - startTime)/1000)}s`);
-    
+
+    const endTime = Date.now();
+    const timeTaken = Math.round((endTime - startTime)/1000);
+    console.log(`Places Seeding completed in ${timeTaken}s\n`);
+    return timeTaken;
+
   }
 }
 
@@ -70,7 +74,7 @@ const insertPhotos = async function insertPhotos() {
       const query = postgres.helpers.insert(values, cs);
       
       await db.none(query);
-      if (i*BATCH_SIZE_PHOTOS*MAX_PHOTOS % 100000 === 0) console.log(`Seeded ${i*BATCH_SIZE_PHOTOS*MAX_PHOTOS} photos in ${Math.round((Date.now() - startTime)/1000)}s`);
+      if (i*BATCH_SIZE_PHOTOS*MAX_PHOTOS % 800000 === 0) console.log(`Seeded ${i*BATCH_SIZE_PHOTOS*MAX_PHOTOS} photos in ${Math.round((Date.now() - startTime)/1000)}s`);
       
       startBatchSize = endBatchSize + 1;
       endBatchSize += BATCH_SIZE_PHOTOS;
@@ -80,9 +84,12 @@ const insertPhotos = async function insertPhotos() {
       console.log('Error seeding data', error);
   }
   finally{
+
     const endTime = Date.now();
-    console.log(`Photo Seeding completed in ${Math.round((endTime - startTime)/1000)}s`);
- 
+    const timeTaken = Math.round((endTime - startTime)/1000);
+    console.log(`Photo Seeding completed in ${timeTaken}s\n`);
+    return timeTaken;
+
   }
 }
 
@@ -90,34 +97,41 @@ const insertReviewers = async function insertReviewers() {
 
   try {
     for (var i = 1; i <= NUM_BATCHES_REVIEWERS; i++){
-      const values = generateReviewerData(BATCH_SIZE);
+      const values = generateReviewerData(BATCH_SIZE_REVIEWERS);
       const cs = new postgres.helpers.ColumnSet(['reviewer_name', 'reviewer_avatar'], {table: 'reviewers'});
       const query = postgres.helpers.insert(values, cs);
       
       await db.none(query);
-      if (i*BATCH_SIZE % 100000 === 0) console.log(`Seeded ${i*BATCH_SIZE} reviewers in ${Math.round((Date.now() - startTime)/1000)}s`)
+      if (i*BATCH_SIZE_REVIEWERS % 100000 === 0) console.log(`Seeded ${i*BATCH_SIZE_REVIEWERS} reviewers in ${Math.round((Date.now() - startTime)/1000)}s`)
     }
   }
   catch (error) {
       console.log('Error seeding data', error);
   }
   finally{
-    const endTime = Date.now()
-    console.log(`Reviewer Seeding completed in ${Math.round((endTime - startTime)/1000)}s`)
+
+    const endTime = Date.now();
+    const timeTaken = Math.round((endTime - startTime)/1000);
+    console.log(`Reviewer Seeding completed in ${timeTaken}s\n`);
+    return timeTaken;
    
   }
 }
 
 const seedDB = async function seedDB(){
 
-  await insertPlaces();
+  //insert and capture times for each table
 
-  await insertReviewers();
+  const placesTimer = await insertPlaces();
 
-  await insertPhotos();
+  const reviewersTimer = await insertReviewers();
 
-  const endTime = Date.now()
-  console.log(`Postgres Seeding completed in ${Math.round((endTime - startTime)/1000)}s`)
+  const photosTimer = await insertPhotos();
+
+  const endTime = Date.now();
+  const timeTaken = Math.round((endTime - startTime)/1000);
+  console.log(`\nSeeded ${NUM_BATCHES_PLACES*BATCH_SIZE_PLACES} Places in ${placesTimer}s\nSeeded ${NUM_BATCHES_REVIEWERS*BATCH_SIZE_REVIEWERS} Reviewers in ${reviewersTimer}s\nSeeded ${NUM_BATCHES_PHOTOS*BATCH_SIZE_PHOTOS*MAX_PHOTOS} Photos in ${photosTimer}s`);
+  console.log(`Overall Postgres Seeding completed in ${timeTaken}s`);
   db.$pool.end(); 
 }
 
