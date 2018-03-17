@@ -1,4 +1,3 @@
-const data = require('./allData.js');
 const MongoClient = require('mongodb').MongoClient;
 const Photos = require('../database/index.js');
 const faker = require('faker');
