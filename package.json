@@ -6,10 +6,11 @@
   "scripts": {
     "server": "nodemon server/index.js",
     "react-dev": "webpack -d --watch",
-    "seed": "node data/seed.js",
+    "pg-start": "psql -U zaid -a -f data/postgres/schema.sql",
+    "pg-seed": "node data/postgres/seedPostgres.js",
+    "mongodb-seed": "node data/mongo/seedMongodb.js",
     "test": "jest",
-    "start": "node data/seed.js && node server/index.js",
-    "localtest": "node data/seed.js && node server/index.js"
+    "start": "node data/seed.js && node server/index.js"
   },
   "author": "",
   "license": "ISC",
