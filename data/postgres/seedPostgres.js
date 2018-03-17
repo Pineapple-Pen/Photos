@@ -73,9 +73,10 @@ const insertPhotos = async function insertPhotos(workerId) {
   }
 
   try {
-    console.log('yo zaid, this is my worker ID', workerId);
+
     //needed to maintain counter of batches to set Place ID for each photoID
     //Use workerId to select starting point for batches
+    
     let startBatchSize = 1 + BATCH_BASE[workerId];
     let endBatchSize = BATCH_SIZE_PHOTOS + BATCH_BASE[workerId];
 
