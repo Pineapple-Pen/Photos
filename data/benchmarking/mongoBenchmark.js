@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const MongoClient = require('mongodb').MongoClient;
 
-const url = 'mongodb://localhost:27017';
+const url = 'mongodb://localhost';
 const dbName = 'photos';
 
 
@@ -13,11 +13,10 @@ const mongoConnect = async function mongoConnect(){
   let client;
   try {
     client = await MongoClient.connect(url);
-    console.log('Native MongoDB driver connected to DB');
 
     let db = client.db(dbName);
 
-    return db.collection('photos');
+    return db.collection('photos'); //return connection object
 
   } catch (err) {
     console.log(err.stack);
@@ -28,8 +27,7 @@ const mongoConnect = async function mongoConnect(){
 const mongooseConnect = async function mongooseConnect(){
 
   await mongoose.connect('mongodb://localhost/photos');
-  console.log('mongoose connected');
-  
+
 }
 
 const photoSchema = mongoose.Schema({
@@ -51,20 +49,22 @@ const findOneMongoose = async function findOneMongoose(){
     return await Photos.find({place_id: id}).limit(1);
   }
 
-  console.log('Queries with Mongoose');
-
-  for (let i = 0; i < 10; i++){
+  let queryTimes = [];
+ 
+  for (let i = 0; i < 2000; i++){
     //Benchmarking Tests
 
     const start = Date.now();
 
-    const result = await findOne(randomInt(9000000,9999999));
+    const result = await findOne(randomInt(0,9999999));
 
     const end = Date.now();
 
-    console.log('Mongoose Query took', end - start, 'ms' );
+    queryTimes.push(end-start);
     
   }
+
+  console.log(`\nMongoose: Completed ${queryTimes.length} queries in an average of ${queryTimes.reduce((accumulator, currentValue) => accumulator + currentValue) / queryTimes.length} ms per query\n` );
 
    mongoose.disconnect();
 
@@ -80,18 +80,22 @@ const executeNativeMongoDb = async function executeNativeMongoDb(collection){
     return await collection.find({place_id: id}).limit(1).toArray();
   }
 
-  console.log('Queries with MongoDB Native');
+  let queryTimes = [];
 
-  for (let i = 0; i < 10; i++){
+  for (let i = 0; i < 2000; i++){
     //Benchmarking Tests
 
     const start = Date.now();
 
-    const result = await findOneNative(randomInt(9000000,9999999), collection);
+    const result = await findOneNative(randomInt(0,9999999), collection);
 
     const end = Date.now();
-    console.log('Native MongoDB Query took', end - start, 'ms' );
+
+    queryTimes.push(end-start);
+
   }
+
+  console.log(`MongoDB (Native Driver): Completed ${queryTimes.length} queries in an average of ${queryTimes.reduce((accumulator, currentValue) => accumulator + currentValue) / queryTimes.length} ms per query\n` );
 
   process.exit();
 }
