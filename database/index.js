@@ -21,8 +21,6 @@ const photoSchema = mongoose.Schema({
   place_name: String,
   photos: Array,
   reviews: Array,
- // photos: [PhotosSchema],
- // reviews: [ReviewSchema],
 });
 
 const Photos = mongoose.model('Photos', photoSchema);
