@@ -33,7 +33,8 @@ const mongooseConnect = async function mongooseConnect(){
 const photoSchema = mongoose.Schema({
   place_id: {
     type: Number,
-    unique: true
+    unique: true,
+    index: true
   },
   place_name: String,
   photos: Array,
