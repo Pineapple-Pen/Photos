@@ -1,5 +1,4 @@
-<<<<<<< HEAD
-# Project Name
+# Pen Apple Pineapple Pen
 Photo Gallery component of Zagat.com. This project is taking an implemented client-side photo gallery and optimizing its backend (server & datastorage infrastructure) to support highly scalable use, targeting a minimum of 100 req/ s.
 
 ## Related Projects
