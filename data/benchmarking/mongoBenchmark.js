@@ -1,7 +1,10 @@
 const mongoose = require('mongoose');
 const MongoClient = require('mongodb').MongoClient;
+require('dotenv').load();
 
-const url = 'mongodb://localhost';
+const DB_URL = process.env.DB_URL;
+
+const url = `mongodb://localhost`;
 const dbName = 'photos';
 
 
@@ -11,6 +14,7 @@ const randomInt = function randomInt(min, max){
 
 const mongoConnect = async function mongoConnect(){
   let client;
+
   try {
     client = await MongoClient.connect(url);
 
@@ -114,6 +118,4 @@ const benchmark = async function benchmark (){
 }
 
 benchmark();
-
-
 
