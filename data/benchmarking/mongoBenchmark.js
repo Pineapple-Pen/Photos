@@ -1,7 +1,10 @@
 const mongoose = require('mongoose');
 const MongoClient = require('mongodb').MongoClient;
+require('dotenv').load();
 
-const url = 'mongodb://localhost';
+const DB_URL = process.env.DB_URL;
+
+const url = `mongodb://${DB_URL}`;
 const dbName = 'photos';
 
 
@@ -114,6 +117,4 @@ const benchmark = async function benchmark (){
 }
 
 benchmark();
-
-
 
