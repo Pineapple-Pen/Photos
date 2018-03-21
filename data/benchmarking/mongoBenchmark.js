@@ -4,7 +4,7 @@ require('dotenv').load();
 
 const DB_URL = process.env.DB_URL;
 
-const url = `mongodb://${DB_URL}`;
+const url = `mongodb://localhost`;
 const dbName = 'photos';
 
 
@@ -14,6 +14,7 @@ const randomInt = function randomInt(min, max){
 
 const mongoConnect = async function mongoConnect(){
   let client;
+
   try {
     client = await MongoClient.connect(url);
 
