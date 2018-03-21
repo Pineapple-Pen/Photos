@@ -4,11 +4,13 @@ const faker = require('faker');
 
 require('dotenv').load();
 
+const DB_URL = process.env.DB_URL;
+
 const MAX_SEED = 10000;
 const BATCH_SIZE = 1000;
 const MAX_PHOTOS = 8;
 const PHOTOS_URL = 'https://picsum.photos/'; // Fake photos
-const URL = 'mongodb://localhost'; // Connection URL
+const URL = `mongodb://${DB_URL}`; // Connection URL
 const DB_NAME = 'photos'; // Database Name
 
 let seedCounter = 0;

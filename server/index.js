@@ -1,18 +1,21 @@
-const request = require('supertest')
 const express = require('express');
 const bodyParser = require('body-parser');
-const mongoose = require('mongoose');
 const cors = require('cors');
 const path = require('path');
-
-mongoose.connect('mongodb://localhost/photos');
+const MongoClient = require('mongodb').MongoClient;
 
 const Photos = require('../database/index.js');
 
+let connection;
+
+async function connectMongo(){
+  connection = await Photos.mongoConnect();
+}
+
+connectMongo(); //connect to mongoDB
+
 const app = express();
-
 app.use(cors());
-
 app.use(bodyParser.json());
 
 // serve static files from dist dir
@@ -24,16 +27,19 @@ app.get('/', (req, res) => {
 });
 
 // retrieve data from API(db)
-app.get('/api/restaurants/:id/gallery', (req, res) => {
-  const id = req.params.id;
-  console.log('server querying for id: ', id)
-  Photos.findOne(id, (err, data) => {
-    if (err) {
-      res.sendStatus(500);
-    } else {
-      res.json(data);
-    }
-  });
+app.get('/api/restaurants/:id/gallery', async (req, res) => {
+
+  const id = Number(req.params.id); //convert string URL to Numebr
+
+  try {
+    const data = await Photos.findOneNative(id, connection);
+    res.json(data);
+  }
+
+  catch(err){
+    res.status(500).send(err);
+  }
+
 });
 
 app.listen(3002, () => console.log('Gallery App listening on port 3002!'));
