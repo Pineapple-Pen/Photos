@@ -8,8 +8,8 @@ config:
     - duration: 20
       arrivalRate: 30
       name: "Sustained high load"
-    - duration: 6
-      arrivalRate: 500
+    - duration: 3
+      arrivalRate: 800
       name: "Spikes in service load"
   processor: "./randomUrl.js"
 
