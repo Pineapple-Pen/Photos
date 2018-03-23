@@ -1,15 +1,17 @@
 config:
   target: "http://localhost:3002"
+  http:
+    pool: 8 # All HTTP requests from all virtual users will be sent over the same 8 connections
   phases:
-    - duration: 30
+    - duration: 5
       arrivalRate: 10
       rampTo: 20
       name: "Warm up the application"
-    - duration: 20
-      arrivalRate: 30
+    - duration: 5
+      arrivalRate: 20
       name: "Sustained high load"
-    - duration: 3
-      arrivalRate: 500
+    - duration: 5
+      arrivalRate: 100
       name: "Spikes in service load"
   processor: "./randomUrl.js"
 
@@ -17,12 +19,14 @@ scenarios:
   - name: "Go to random URL"
     flow:
       - function: "generateRandomData"
-      - get:
-          url: "/restaurants/{{ id }}"
-      - log: "Sent a request to /restaurants/{{ id }}"
-      - get:
-          url: "/restaurants/{{ id }}/bundle.js"
-      - log: "Sent a request to /restaurants/{{ id }}/bundle.js"
-      - get:
-          url: "/api/restaurants/{{ id }}/gallery"
-      - log: "Sent a request to /api/restaurants/{{ id }}/gallery"
+      - loop:
+        # - get:
+        #     url: "/restaurants/{{ id }}"
+        #   log: "Sent a request to /restaurants/{{ id }}"
+        # - get:
+        #     url: "/restaurants/{{ id }}/bundle.js"
+        #   log: "Sent a request to /restaurants/{{ id }}/bundle.js"
+          - get:
+              url: "/api/restaurants/{{ id }}/gallery"
+      #- log: "Sent a request to /api/restaurants/{{ id }}/gallery"
+        count: 35

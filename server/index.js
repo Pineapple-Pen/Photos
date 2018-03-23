@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const path = require('path');
 const MongoClient = require('mongodb').MongoClient;
-const morgan = require('morgan');
+//const morgan = require('morgan');
 
 const Photos = require('../database/index.js');
 
@@ -18,7 +18,7 @@ connectMongo(); //connect to mongoDB
 
 const app = express();
 app.use(cors());
-app.use(morgan('tiny'));
+//app.use(morgan('tiny'));
 app.use(bodyParser.json());
 
 // serve static files from dist dir
