@@ -3,4 +3,3 @@ config.js
 node_modules
 bundle.js
 .DS_Store
-newrelic.js

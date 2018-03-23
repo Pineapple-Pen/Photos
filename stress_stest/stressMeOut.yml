@@ -9,7 +9,7 @@ config:
       arrivalRate: 30
       name: "Sustained high load"
     - duration: 3
-      arrivalRate: 800
+      arrivalRate: 500
       name: "Spikes in service load"
   processor: "./randomUrl.js"
 
