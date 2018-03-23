@@ -10,7 +10,8 @@
     "pg-seed": "node data/postgres/seedPostgres.js",
     "mongodb-seed": "node data/mongo/seedMongodb.js",
     "test": "jest",
-    "start": "node data/seed.js && node server/index.js"
+    "start": "node data/seed.js && node server/index.js",
+    "stress": "artillery run stress_test/stressMeOut.yml"
   },
   "author": "",
   "license": "ISC",
