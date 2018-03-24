@@ -3,3 +3,5 @@ config.js
 node_modules
 bundle.js
 .DS_Store
+newrelic_agent.log
+dump.rdb

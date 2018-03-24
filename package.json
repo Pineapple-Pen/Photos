@@ -1,16 +1,19 @@
 {
-  "name": "movielist",
+  "name": "proxy-zaid",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "server": "nodemon server/index.js",
+    "produce": "webpack -p",
     "react-dev": "webpack -d --watch",
     "pg-start": "psql -U zaid -a -f data/postgres/schema.sql",
     "pg-seed": "node data/postgres/seedPostgres.js",
     "mongodb-seed": "node data/mongo/seedMongodb.js",
     "test": "jest",
-    "start": "node data/seed.js && node server/index.js"
+    "start": "node data/seed.js && node server/index.js",
+    "stress": "artillery run stress_test/stressMeOut.yml",
+    "warm-cache": "node data/redis/warmCache.js"
   },
   "author": "",
   "license": "ISC",
@@ -41,6 +44,7 @@
     "react-native": "^0.53.3",
     "react-photo-gallery": "^6.0.22",
     "react-responsive-modal": "^2.0.1",
+    "redis": "^2.8.0",
     "request": "^2.83.0",
     "request-promise": "^4.2.2"
   },
