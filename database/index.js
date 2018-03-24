@@ -1,8 +1,7 @@
 const mongoose = require('mongoose');
 const MongoClient = require('mongodb').MongoClient;
 require('dotenv').load();
-
-const DB_URL = process.env.DB_URL;
+const DB_URL = process.env.DB_URL || 'localhost';
 
 const url = `mongodb://${DB_URL}`;
 const dbName = 'photos';

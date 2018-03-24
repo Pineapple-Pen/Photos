@@ -3,15 +3,15 @@ config:
   http:
     pool: 8 # All HTTP requests from all virtual users will be sent over the same 8 connections
   phases:
-    - duration: 5
+    - duration: 3
       arrivalRate: 10
-      rampTo: 20
+      rampTo: 30
       name: "Warm up the application"
-    - duration: 5
-      arrivalRate: 20
+    - duration: 3
+      arrivalRate: 30
       name: "Sustained high load"
-    - duration: 5
-      arrivalRate: 100
+    - duration: 3
+      arrivalRate: 200
       name: "Spikes in service load"
   processor: "./randomUrl.js"
 
@@ -29,4 +29,4 @@ scenarios:
           - get:
               url: "/api/restaurants/{{ id }}/gallery"
       #- log: "Sent a request to /api/restaurants/{{ id }}/gallery"
-        count: 35
+        count: 50
