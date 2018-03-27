@@ -31,6 +31,7 @@ app.use(bodyParser.json());
 
 // serve static files from dist dir
 app.use('/restaurants/:id', express.static(path.join(__dirname, '../client/dist')));
+app.use('/', express.static(path.join(__dirname, '../client/dist')));
 
 // if no ID typed into url bar, redirect to this ID
 app.get('/', (req, res) => {
