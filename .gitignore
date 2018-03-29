@@ -2,6 +2,8 @@ config.js
 .env
 node_modules
 bundle.js
+bundle-server.js
 .DS_Store
 newrelic_agent.log
 dump.rdb
+photo-aws-key.pem

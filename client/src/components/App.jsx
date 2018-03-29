@@ -4,9 +4,9 @@ import Gallery from '../../../lib/react-photo-gallery';
 import SlideShowView from './SlideShowView';
 import TopNav from './TopNav';
 
-export default class App extends React.Component {
-  constructor() {
-    super();
+export default class Photos extends React.Component {
+  constructor(props) {
+    super(props);
     this.state = {
       data: [],
       siteName: '',
@@ -27,7 +27,7 @@ export default class App extends React.Component {
   componentDidMount() {
     const context = this;
     // const id = this.state.currentSite;
-    const id = window.location.href.split('/')[4];
+    const id = this.props.id || window.location.href.split('/')[4];
 
     axios.get(`/api/restaurants/${id}/gallery`)
       .then((response) => {
@@ -160,4 +160,6 @@ export default class App extends React.Component {
   }
 }
 
-window.App = App;
+if ( window !== {}){
+  window.Photos = Photos;
+}
