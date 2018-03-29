@@ -29,13 +29,14 @@ app.use(cors());
 //app.use(morgan('tiny'));
 app.use(bodyParser.json());
 
-// serve static files from dist dir
-app.use('/restaurants/:id', express.static(path.join(__dirname, '../client/dist')));
-
 // if no ID typed into url bar, redirect to this ID
 app.get('/', (req, res) => {
   res.status(200).redirect(`/restaurants/${Math.floor(Math.random()*10000000)}`);
 });
+
+// serve static files from dist dir
+app.use('/restaurants/:id', express.static(path.join(__dirname, '../client/dist')));
+app.use(express.static(path.join(__dirname, '../client/dist')));
 
 //middleware that stores key/value pair for place in Redis cache on request
 app.get('/api/restaurants/:id/gallery', async (req, res, next) => {
